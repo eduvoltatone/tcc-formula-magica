@@ -212,9 +212,11 @@
         </section>
 
         <section id="carteira-atual">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h2 class="fw-bold">Ranking Atual (Top 20)</h2>
-                <span class="badge bg-success p-2">Atualizado</span>
+            <div class="d-flex flex-column flex-md-row justify-content-md-between align-items-start align-items-md-center mb-4 gap-2">
+                <h2 class="fw-bold mb-0">Ranking Atual (Top 20)</h2>
+                <span class="badge bg-success p-2 fs-6">
+                    <i class="fas fa-calendar-check me-2"></i>Atualizado em: 01/11/2025
+                </span>
             </div>
             <p class="text-muted mb-4">
                 Abaixo estão as 20 empresas melhor ranqueadas segundo a soma dos rankings de ROC e Earnings Yield, após filtro de liquidez diária.
@@ -236,8 +238,6 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         // --- 1. CONFIGURAÇÃO DA CARTEIRA ATUALIZADA ---
-        // 'domain' = para busca automática.
-        // 'logoOverride' = link manual da imagem (opcional).
         const carteiraAtual = [
             { rank: 1, ticker: "JHSF3", nome: "JHSF Participações", domain: "jhsf.com.br", ri: "https://ri.jhsf.com.br/" },
             { rank: 2, ticker: "RECV3", nome: "PetroRecôncavo", domain: "petroreconcavo.com.br", ri: "https://ri.petroreconcavo.com.br/" },
@@ -245,7 +245,7 @@
             { rank: 4, ticker: "VLID3", nome: "Valid Soluções", domain: "valid.com", ri: "https://ri.valid.com/" },
             { rank: 5, ticker: "PETR4", nome: "Petrobras", domain: "petrobras.com.br", ri: "https://www.investidorpetrobras.com.br/" },
             
-            // ATUALIZADO: Iochp-Maxion com logo e RI manuais
+            // Iochp-Maxion com logo e RI manuais
             { 
                 rank: 6, 
                 ticker: "MYPK3", 
@@ -275,7 +275,6 @@
         const container = document.getElementById('stock-list-container');
         
         carteiraAtual.forEach(acao => {
-            // Lógica: Se tiver logo manual (Override), usa ele. Senão, tenta buscar no Clearbit pelo domínio.
             const logoUrl = acao.logoOverride ? acao.logoOverride : `https://logo.clearbit.com/${acao.domain}`;
             
             const html = `
@@ -296,7 +295,7 @@
             container.innerHTML += html;
         });
 
-        // --- 2. CONFIGURAÇÃO DO GRÁFICO (PRESERVADO) ---
+        // --- 2. CONFIGURAÇÃO DO GRÁFICO ---
         const ctx = document.getElementById('performanceChart').getContext('2d');
         
         const labels = [
