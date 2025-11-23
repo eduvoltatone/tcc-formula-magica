@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Fórmula Mágica - TCC Eduardo Voltatone</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #0f172a;
+            --accent-color: #10b981; /* Verde financeiro */
+            --secondary-color: #334155;
+            --text-light: #f8fafc;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: var(--primary-color);
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: var(--text-light);
+            padding: 4rem 0;
+            margin-bottom: 2rem;
+        }
+
+        .highlight-box {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            height: 100%;
+            transition: transform 0.2s;
+            border: 1px solid #e2e8f0;
+        }
+
+        .highlight-box:hover {
+            transform: translateY(-5px);
+        }
+
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent-color);
+        }
+
+        /* Tabela de Ações - Estilo Novo */
+        .stock-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            margin-bottom: 15px;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            display: flex;
+            align-items: center;
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stock-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            border-color: var(--accent-color);
+        }
+
+        /* Estilo do Ranking (Azul com borda Verde) */
+        .rank-badge {
+            font-size: 1.2rem;
+            font-weight: 700;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin-right: 20px;
+            background-color: var(--primary-color); /* Fundo Azul */
+            color: white; /* Texto Branco */
+            border: 2px solid var(--accent-color); /* Borda Verde */
+            flex-shrink: 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .company-logo {
+            width: 48px;
+            height: 48px;
+            object-fit: contain;
+            margin-right: 20px;
+            border-radius: 8px;
+            padding: 2px;
+            background: white;
+            border: 1px solid #f1f5f9;
+        }
+
+        .stock-info {
+            flex-grow: 1;
+        }
+
+        .stock-ticker {
+            font-weight: 800;
+            font-size: 1.25rem;
+            color: var(--primary-color);
+            line-height: 1.2;
+        }
+        
+        .stock-name {
+            font-size: 0.9rem;
+            color: #64748b;
+        }
+
+        .ri-btn {
+            background-color: transparent;
+            border: 1px solid #cbd5e1;
+            color: #64748b;
+            font-size: 0.85rem;
+            padding: 8px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .ri-btn:hover {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        footer {
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            padding: 3rem 0;
+            margin-top: 4rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="text-center">
+        <div class="container">
+            <h1 class="display-4 fw-bold">A Fórmula Mágica no Brasil</h1>
+            <p class="lead">Algoritmo de Seleção de Ações Baseado na Metodologia de Joel Greenblatt</p>
+            <hr class="my-4" style="width: 50%; margin: auto; border-color: var(--accent-color);">
+            <p class="small">Baseado no Trabalho de Conclusão de Curso de<br><strong>Eduardo Voltatone Ribeiro das Neves</strong></p>
+            <p class="small">Engenharia de Software - Unicesumar</p>
+        </div>
+    </header>
+
+    <div class="container">
+        
+        <section id="metodologia" class="mb-5">
+            <div class="row text-center mb-4">
+                <div class="col-12">
+                    <h2 class="fw-bold">A Metodologia</h2>
+                    <p class="text-muted">Combinando Qualidade e Valor para superar o mercado.</p>
+                </div>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="highlight-box text-center">
+                        <i class="fas fa-gem fa-2x mb-3 text-secondary"></i>
+                        <h3>Qualidade (ROC)</h3>
+                        <p>Retorno sobre o Capital Empregado.</p>
+                        <p class="small text-muted">
+                            "Comprar bons negócios." Mede a eficiência com que a empresa investe seu capital para gerar lucros.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="highlight-box text-center">
+                        <i class="fas fa-tags fa-2x mb-3 text-secondary"></i>
+                        <h3>Valor (Earnings Yield)</h3>
+                        <p>Rendimento do Lucro.</p>
+                        <p class="small text-muted">
+                            "A preços irrisórios." Mede o lucro que a empresa gera em relação ao preço pago por ela (EBIT / EV).
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="performance" class="mb-5">
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4">
+                    <h3 class="card-title fw-bold mb-4">Performance Histórica (Backtest TCC)</h3>
+                    <p class="card-text text-muted">Comparativo do algoritmo desenvolvido vs. Ibovespa (Dez/2021 a Dez/2024).</p>
+                    
+                    <div style="height: 450px;">
+                        <canvas id="performanceChart"></canvas>
+                    </div>
+                    
+                    <div class="row text-center mt-4">
+                        <div class="col-md-6">
+                            <p class="mb-0 text-muted text-uppercase small fw-bold">Retorno Carteira TCC</p>
+                            <span class="metric-value text-success">+63,4%</span>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="mb-0 text-muted text-uppercase small fw-bold">Retorno Ibovespa</p>
+                            <span class="metric-value text-secondary">+24,6%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="carteira-atual">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="fw-bold">Ranking Atual (Top 20)</h2>
+                <span class="badge bg-success p-2">Atualizado</span>
+            </div>
+            <p class="text-muted mb-4">
+                Abaixo estão as 20 empresas melhor ranqueadas segundo a soma dos rankings de ROC e Earnings Yield, após filtro de liquidez diária.
+            </p>
+
+            <div class="row" id="stock-list-container">
+                </div>
+        </section>
+
+    </div>
+
+    <footer class="text-center">
+        <div class="container">
+            <p>&copy; 2025 Eduardo Voltatone Ribeiro das Neves.</p>
+            <p class="small opacity-75">Este site tem caráter acadêmico e informativo, baseado em pesquisa de TCC. Não constitui recomendação de investimento.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // --- 1. CONFIGURAÇÃO DA CARTEIRA ATUALIZADA ---
+        // 'domain' = para busca automática.
+        // 'logoOverride' = link manual da imagem (opcional).
+        const carteiraAtual = [
+            { rank: 1, ticker: "JHSF3", nome: "JHSF Participações", domain: "jhsf.com.br", ri: "https://ri.jhsf.com.br/" },
+            { rank: 2, ticker: "RECV3", nome: "PetroRecôncavo", domain: "petroreconcavo.com.br", ri: "https://ri.petroreconcavo.com.br/" },
+            { rank: 3, ticker: "POSI3", nome: "Positivo Tecnologia", domain: "positivotecnologia.com.br", ri: "https://ri.positivotecnologia.com.br/" },
+            { rank: 4, ticker: "VLID3", nome: "Valid Soluções", domain: "valid.com", ri: "https://ri.valid.com/" },
+            { rank: 5, ticker: "PETR4", nome: "Petrobras", domain: "petrobras.com.br", ri: "https://www.investidorpetrobras.com.br/" },
+            
+            // ATUALIZADO: Iochp-Maxion com logo e RI manuais
+            { 
+                rank: 6, 
+                ticker: "MYPK3", 
+                nome: "Iochp-Maxion", 
+                domain: "iochpe.com.br", 
+                logoOverride: "https://cdn-sites-assets.mziq.com/wp-content/uploads/sites/887/2021/09/Group.png",
+                ri: "https://www.iochpe.com.br/informacoes-financeiras/central-de-resultados/" 
+            },
+
+            { rank: 7, ticker: "ASAI3", nome: "Assaí Atacadista", domain: "assai.com.br", ri: "https://ri.assai.com.br/" },
+            { rank: 8, ticker: "TGMA3", nome: "Tegma", domain: "tegma.com.br", ri: "https://ri.tegma.com.br/" },
+            { rank: 9, ticker: "VAMO3", nome: "Grupo Vamos", domain: "grupovamos.com.br", ri: "https://ri.grupovamos.com.br/" },
+            { rank: 10, ticker: "IGTI11", nome: "Iguatemi S.A.", domain: "iguatemi.com.br", ri: "https://ri.iguatemi.com.br/" },
+            { rank: 11, ticker: "LEVE3", nome: "Mahle Metal Leve", domain: "mahle.com", ri: "https://ri.mahle.com.br/" },
+            { rank: 12, ticker: "CMIN3", nome: "CSN Mineração", domain: "csnmineracao.com.br", ri: "https://ri.csnmineracao.com.br/" },
+            { rank: 13, ticker: "SBSP3", nome: "Sabesp", domain: "sabesp.com.br", ri: "https://ri.sabesp.com.br/" },
+            { rank: 14, ticker: "GRND3", nome: "Grendene", domain: "grendene.com.br", ri: "https://ri.grendene.com.br/" },
+            { rank: 15, ticker: "MOVI3", nome: "Movida", domain: "movida.com.br", ri: "https://ri.movida.com.br/" },
+            { rank: 16, ticker: "PLPL3", nome: "Plano & Plano", domain: "planoeplano.com.br", ri: "https://ri.planoeplano.com.br/" },
+            { rank: 17, ticker: "ANIM3", nome: "Ânima Educação", domain: "animaeducacao.com.br", ri: "https://ri.animaeducacao.com.br/" },
+            { rank: 18, ticker: "GMAT3", nome: "Grupo Mateus", domain: "grupomateus.com.br", ri: "https://ri.grupomateus.com.br/" },
+            { rank: 19, ticker: "LAVV3", nome: "Lavvi Empreendimentos", domain: "lavvi.com.br", ri: "https://ri.lavvi.com.br/" },
+            { rank: 20, ticker: "CPFE3", nome: "CPFL Energia", domain: "cpfl.com.br", ri: "https://ri.cpfl.com.br/" }
+        ];
+
+        // Função para renderizar a lista de ações
+        const container = document.getElementById('stock-list-container');
+        
+        carteiraAtual.forEach(acao => {
+            // Lógica: Se tiver logo manual (Override), usa ele. Senão, tenta buscar no Clearbit pelo domínio.
+            const logoUrl = acao.logoOverride ? acao.logoOverride : `https://logo.clearbit.com/${acao.domain}`;
+            
+            const html = `
+                <div class="col-lg-6">
+                    <div class="stock-card">
+                        <div class="rank-badge">${acao.rank}º</div>
+                        <img src="${logoUrl}" class="company-logo" alt="${acao.ticker}" onerror="this.src='https://via.placeholder.com/48?text=${acao.ticker.substring(0,1)}'">
+                        <div class="stock-info">
+                            <div class="stock-ticker">${acao.ticker}</div>
+                            <div class="stock-name">${acao.nome}</div>
+                        </div>
+                        <a href="${acao.ri}" target="_blank" class="ri-btn">
+                            <i class="fas fa-external-link-alt me-2"></i>Site RI
+                        </a>
+                    </div>
+                </div>
+            `;
+            container.innerHTML += html;
+        });
+
+        // --- 2. CONFIGURAÇÃO DO GRÁFICO (PRESERVADO) ---
+        const ctx = document.getElementById('performanceChart').getContext('2d');
+        
+        const labels = [
+            'Dez/21', 'Mai/22', 'Set/22', 'Jan/23', 'Mai/23', 'Set/23', 'Jan/24', 'Mai/24', 'Set/24', 'Dez/24'
+        ];
+        
+        const dataMagicFormula = [0.0, 10.2, 12.4, 5.1, 8.3, 39.4, 64.2, 59.1, 60.8, 63.4];
+        const dataIbovespa =     [0.0, 3.1,  10.5, 4.9, 3.2, 17.1, 32.5, 27.3, 35.2, 24.6];
+
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'Carteira TCC Eduardo Voltatone',
+                        data: dataMagicFormula,
+                        borderColor: '#0056b3',
+                        backgroundColor: 'rgba(0, 86, 179, 0.05)',
+                        borderWidth: 3,
+                        pointRadius: 4,
+                        pointHoverRadius: 6,
+                        tension: 0.4,
+                        fill: true
+                    },
+                    {
+                        label: 'Ibovespa',
+                        data: dataIbovespa,
+                        borderColor: '#fd7e14',
+                        backgroundColor: 'rgba(253, 126, 20, 0.05)',
+                        borderWidth: 3,
+                        pointRadius: 4,
+                        pointHoverRadius: 6,
+                        tension: 0.4,
+                        fill: false
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: { mode: 'index', intersect: false },
+                plugins: {
+                    legend: { position: 'top', labels: { usePointStyle: true, boxWidth: 8 } },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.dataset.label + ': ' + context.parsed.y.toFixed(1) + '%';
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: { grid: { display: true, color: '#f1f5f9' } },
+                    y: {
+                        grid: { display: true, color: '#f1f5f9' },
+                        title: { display: true, text: 'Retorno Acumulado (%)' }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
